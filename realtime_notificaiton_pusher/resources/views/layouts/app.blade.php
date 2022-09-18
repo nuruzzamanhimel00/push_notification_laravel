@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack("css")
 </head>
 <body>
     <div id="app">
@@ -78,6 +79,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        @stack('javascript')
     </div>
 </body>
 </html>
