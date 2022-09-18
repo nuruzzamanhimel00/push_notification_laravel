@@ -2,10 +2,10 @@ importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js');
 
 firebase.initializeApp({
-    apiKey: "AIzaSyCFyM7v8jEKRIylsmQcukHJmY2Q5RLXy04",
-    projectId: "push-notification-e69f9",
-    messagingSenderId: "664342013082",
-    appId: "1:664342013082:web:f05c0dd0bf7d0ceb572b23",
+    apiKey: "AIzaSyDY9muZHc5m1MiMoDh_mpeMW-ERw_APYYI",
+    projectId: "himelproject-94766",
+    messagingSenderId: "244786211553",
+    appId: "1:244786211553:web:e4a15179a0280c8523a5a0",
 });
 
 const messaging = firebase.messaging();
