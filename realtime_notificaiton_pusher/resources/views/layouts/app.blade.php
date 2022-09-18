@@ -18,7 +18,23 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     @stack("css")
+    <style>
+        #notifDiv {
+         z-index:10000;
+         display: none;
+         background: green;
+         font-weight: 450;
+         width: 350px;
+         position: fixed;
+         top: 80%;
+         left: 5%;
+         color: white;
+         padding: 5px 20px;
+        } 
+     </style>
 </head>
 <body>
     <div id="app">
@@ -40,6 +56,17 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        @foreach($notifications as $key)
+                        <li class="nav-item dropdown mr-2" id="{{ $key->id }}">
+                            <a href="#" class="nav-link" data-toggle="dropdown">
+                                <i class="fa fa-bell text-white">
+                                    @if($key->unread)
+                                    <span class="badge badge-danger pending">{{ $key->unread }}</span>
+                                    @endif
+                                </i>
+                            </a>
+                        </li>   
+                        @endforeach 
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -75,15 +102,20 @@
                 </div>
             </div>
         </nav>
-
+        
+          <div id="notifDiv"> </div>
         <main class="py-4">
+          
             @yield('content')
         </main>
+
+        
+    </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        
         @stack('javascript')
-    </div>
 </body>
 </html>
