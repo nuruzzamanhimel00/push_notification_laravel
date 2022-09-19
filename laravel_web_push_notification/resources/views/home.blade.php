@@ -86,6 +86,7 @@
     }
 
     messaging.onMessage(function (payload) {
+        alert("himel");
         const title = payload.notification.title;
         const options = {
             body: payload.notification.body,
