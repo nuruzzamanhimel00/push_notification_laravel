@@ -18,6 +18,23 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    @stack("css")
+    <style>
+        #notifDiv {
+         z-index:10000;
+         display: none;
+         background: green;
+         font-weight: 450;
+         width: 350px;
+         position: fixed;
+         top: 80%;
+         left: 5%;
+         color: white;
+         padding: 5px 20px;
+        } 
+     </style>
 </head>
 <body>
     <div id="app">
@@ -26,19 +43,30 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav me-auto">
 
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        @foreach($notifications as $key)
+                        <li class="nav-item dropdown mr-2" id="{{ $key->id }}">
+                            <a href="#" class="nav-link" data-toggle="dropdown">
+                                <i class="fa fa-bell text-white">
+                                    @if($key->unread)
+                                    <span class="badge badge-danger pending">{{ $key->unread }}</span>
+                                    @endif
+                                </i>
+                            </a>
+                        </li>   
+                        @endforeach 
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
@@ -53,11 +81,11 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -74,62 +102,20 @@
                 </div>
             </div>
         </nav>
-
+        
+          <div id="notifDiv"> </div>
         <main class="py-4">
+          
             @yield('content')
         </main>
+
+        
     </div>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-        https://firebase.google.com/docs/web/setup#available-libraries -->
-
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDY9muZHc5m1MiMoDh_mpeMW-ERw_APYYI",
-            authDomain: "himelproject-94766.firebaseapp.com",
-            databaseURL: "https://himelproject-94766-default-rtdb.firebaseio.com",
-            projectId: "himelproject-94766",
-            storageBucket: "himelproject-94766.appspot.com",
-            messagingSenderId: "244786211553",
-            appId: "1:244786211553:web:e4a15179a0280c8523a5a0",
-            measurementId: "G-NN052JRLYQ"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        const messaging = firebase.messaging();
-
-        function initFirebaseMessagingRegistration() {
-           
-            messaging.requestPermission().then(function () {
-                console.log('helo');
-                return messaging.getToken()
-            }).then(function(token) {
-                console.log(token);
-                axios.post("{{ route('fcmToken') }}",{
-                    _method:"PATCH",
-                    token
-                }).then(({data})=>{
-                    console.log(data)
-                }).catch(({response:{data}})=>{
-                    console.error(data)
-                })
-
-            }).catch(function (err) {
-                console.log(`Token Error :: ${err}`);
-            });
-        }
-
-        initFirebaseMessagingRegistration();
-
-        messaging.onMessage(function({data:{body,title}}){
-            new Notification(title, {body});
-        });
-    </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        
+        @stack('javascript')
 </body>
 </html>
