@@ -53,11 +53,11 @@ class HomeController extends Controller
         try{
             $fcmTokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
-            Notification::send(null,new SendPushNotification($request->title,$request->message,$fcmTokens));
+            // Notification::send(null,new SendPushNotification($request->title,$request->message,$fcmTokens));
 
             /* or */
 
-            // auth()->user()->notify(new SendPushNotification($request->title,$request->message,$fcmTokens));
+            auth()->user()->notify(new SendPushNotification($request->title,$request->message,$fcmTokens));
             // dd($fcmTokens);
             /* or */
 

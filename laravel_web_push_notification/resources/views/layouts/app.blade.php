@@ -45,7 +45,7 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
+                            
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
@@ -79,55 +79,5 @@
             @yield('content')
         </main>
     </div>
-
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-        https://firebase.google.com/docs/web/setup#available-libraries -->
-
-    <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDY9muZHc5m1MiMoDh_mpeMW-ERw_APYYI",
-            authDomain: "himelproject-94766.firebaseapp.com",
-            databaseURL: "https://himelproject-94766-default-rtdb.firebaseio.com",
-            projectId: "himelproject-94766",
-            storageBucket: "himelproject-94766.appspot.com",
-            messagingSenderId: "244786211553",
-            appId: "1:244786211553:web:e4a15179a0280c8523a5a0",
-            measurementId: "G-NN052JRLYQ"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        const messaging = firebase.messaging();
-
-        function initFirebaseMessagingRegistration() {
-            messaging.requestPermission().then(function () {
-                return messaging.getToken()
-            }).then(function(token) {
-                console.log(token);
-                axios.post("{{ route('fcmToken') }}",{
-                    _method:"PATCH",
-                    token
-                }).then(({data})=>{
-                    console.log(data)
-                }).catch(({response:{data}})=>{
-                    console.error(data)
-                })
-
-            }).catch(function (err) {
-                console.log(`Token Error :: ${err}`);
-            });
-        }
-
-        initFirebaseMessagingRegistration();
-
-        messaging.onMessage(function({data:{body,title}}){
-            new Notification(title, {body});
-        });
-    </script>
 </body>
 </html>
