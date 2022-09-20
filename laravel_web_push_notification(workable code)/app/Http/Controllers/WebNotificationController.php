@@ -33,11 +33,10 @@ class WebNotificationController extends Controller
 
         $data = [
             "registration_ids" => $FcmToken,
-            // "registration_ids" => $FcmToken,
             'priority' => 'high',
             "notification" => [
                 "title" => $request->title,
-                "body" => $request->body,
+                "body" => $request->body
             ]
         ];
         $encodedData = json_encode($data);
