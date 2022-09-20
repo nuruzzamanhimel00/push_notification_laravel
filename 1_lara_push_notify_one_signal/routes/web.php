@@ -29,7 +29,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/view-app', [NotificationController::class, 'viewApps'])->name('viewApps');
 
 Route::get('/event', function(){
-   event(new TaskEvent('hat how r you'));
+   event(new TaskEvent('hat how r you again'));
 });
 
 Route::get('/listen', function(){

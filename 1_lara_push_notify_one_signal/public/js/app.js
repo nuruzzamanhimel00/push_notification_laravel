@@ -5105,7 +5105,7 @@ Vue.component('example-component', (__webpack_require__(/*! ./components/Example
 var app = new Vue({
   el: '#app',
   created: function created() {
-    Echo.channel("testChannel").listen('TaskEvent', function (e) {
+    Echo["private"]("testChannel").listen('TaskEvent', function (e) {
       console.log(e);
     });
   }
