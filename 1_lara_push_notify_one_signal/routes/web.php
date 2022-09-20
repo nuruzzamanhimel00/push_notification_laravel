@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\AccountApproved;
+use App\Http\Controllers\NotificationController;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +24,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/view-app', [NotificationController::class, 'viewApps'])->name('viewApps');
+
+Route::group(['middleware' => ['auth']],function(){
+
+    Route::get('/send-notificaon', function(){
+        $user = User::first();
+        $user->notify( new AccountApproved );
+        return "Send notificaon";
+    });
+});
+
+
+

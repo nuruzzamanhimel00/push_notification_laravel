@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
         Ladumor\OneSignal\OneSignalServiceProvider::class,
+
+        NotificationChannels\OneSignal\OneSignalServiceProvider::class,
         /*
          * Application Service Providers...
          */
