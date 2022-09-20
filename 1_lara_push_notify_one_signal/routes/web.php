@@ -1,10 +1,11 @@
 <?php
 
 use App\Models\User;
+use App\Events\TaskEvent;
 use Illuminate\Support\Facades\Route;
 use App\Notifications\AccountApproved;
-use App\Http\Controllers\NotificationController;
 use Illuminate\Notifications\Notification;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,10 @@ Route::get('/view-app', [NotificationController::class, 'viewApps'])->name('view
 Route::get('/event', function(){
    event(new TaskEvent('hat how r you'));
 });
+
+Route::get('/listen', function(){
+   return view('listen');
+ });
 
 Route::group(['middleware' => ['auth']],function(){
 
