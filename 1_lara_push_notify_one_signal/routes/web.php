@@ -27,6 +27,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/view-app', [NotificationController::class, 'viewApps'])->name('viewApps');
 
+Route::get('/event', function(){
+   event(new TaskEvent('hat how r you'));
+});
+
 Route::group(['middleware' => ['auth']],function(){
 
     Route::get('/send-notificaon', function(){
